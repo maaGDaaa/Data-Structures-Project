@@ -30,7 +30,7 @@ public:
     AVLTree();
     ~AVLTree();
 
-    void buildFromFile(const std::string& filename);
+    bool buildFromFile(const std::string& filename);
     void insert(int key);
     bool search(int key) const;
     void remove(int key);

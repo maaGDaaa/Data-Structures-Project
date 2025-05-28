@@ -2,6 +2,7 @@
 #include <fstream>
 #include <algorithm>
 #include <stdexcept>
+#include <iostream> // Include iostream header
 
 AVLTree::AVLTree() : root(nullptr), tree_size(0) {}
 
@@ -110,16 +111,27 @@ bool AVLTree::searchNode(Node* node, int key) const {
     else return searchNode(node->right, key);
 }
 
-void AVLTree::buildFromFile(const std::string& filename) {
+bool AVLTree::buildFromFile(const std::string& filename) {
     clear(root);
     root = nullptr;
     tree_size = 0;
+
     std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Error opening file: " << filename << "\n";
+        return false;
+    }
+
     int x;
     while (file >> x) {
         root = insertNode(root, x);
+        ++tree_size;
     }
+
+    file.close();
+    return true;
 }
+
 
 void AVLTree::insert(int key) {
     root = insertNode(root, key);
