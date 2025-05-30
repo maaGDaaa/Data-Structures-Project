@@ -125,7 +125,6 @@ bool AVLTree::buildFromFile(const std::string& filename) {
     int x;
     while (file >> x) {
         root = insertNode(root, x);
-        ++tree_size;
     }
 
     file.close();
