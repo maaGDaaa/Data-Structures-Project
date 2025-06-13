@@ -5,21 +5,22 @@
 #include <list>
 #include <string>
 
+// Κλάση για υλοποίηση Hash Table
 class HashTable {
 private:
-    static const int TABLE_SIZE = 103; // A prime number for better distribution
-    std::vector<std::list<int>> table;
-    int numElements;
+    static const int TABLE_SIZE = 103; // μέγεθος πίνακα
+    std::vector<std::list<int>> table; // ο πίνακας με λίστες
+    int numElements; // πλήθος στοιχείων
 
-    int hashFunction(int key) const;
+    int hashFunction(int key) const; // συνάρτηση κατακερματισμού
 
 public:
-    HashTable();
+    HashTable(); // κατασκευαστής
 
-    bool buildFromFile(const std::string& filename);
-    int getSize() const;
-    bool search(int number) const;
-    void insert(int number);
+    bool buildFromFile(const std::string& filename); // φόρτωση από αρχείο
+    int getSize() const; // επιστρέφει το μέγεθος
+    bool search(int number) const; // αναζήτηση στοιχείου
+    void insert(int number); // εισαγωγή στοιχείου
 };
 
 #endif

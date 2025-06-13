@@ -77,7 +77,7 @@ int MaxHeap::getSize() const {
 int MaxHeap::findMax() const {
     if (heap.empty()) {
         std::cerr << "MaxHeap is empty\n";
-        return -1; // ή throw exception αν προτιμάς
+        return -1; 
     }
     return heap[0];
 }

@@ -8,9 +8,9 @@
 Graph::Graph() : num_edges(0) {}
 
 Graph::~Graph() {
-    adj.clear();
-    vertices.clear();
-    num_edges = 0;
+    adj.clear(); // καθαρισμα λιστας γειτονων
+    vertices.clear(); // καθαρισμα κορυφων
+    num_edges = 0; // μηδενισμος ακμων
 }
 
 bool Graph::buildFromFile(const std::string& filename) {
@@ -21,25 +21,25 @@ bool Graph::buildFromFile(const std::string& filename) {
     std::ifstream file(filename);
     int u, v, w;
     while (file >> u >> v >> w) {
-        insertEdge(u, v, w);
+        insertEdge(u, v, w); // προσθηκη ακμης απο αρχειο
     }
     return true;
 }
 
 void Graph::insertEdge(int u, int v, int weight) {
-    vertices.insert(u);
+    vertices.insert(u); // προσθηκη κορυφης
     vertices.insert(v);
 
     bool found = false;
     for (const auto& edge : adj[u]) {
         if (edge.to == v) {
             found = true;
-            return;
+            return; // αν υπαρχει ηδη η ακμη, επιστροφη
         }
     }
 
-    adj[u].push_back({v, weight});
-    adj[v].push_back({u, weight});
+    adj[u].push_back({v, weight}); // προσθηκη ακμης
+    adj[v].push_back({u, weight}); // αμφιδρομη
     num_edges++;
 }
 
@@ -58,25 +58,24 @@ void Graph::removeEdge(int u, int v) {
     }
     
     if (removed) {
-        num_edges--;
+        num_edges--; // μειωση αριθμου ακμων
     }
 }
 
-
 int Graph::vertexCount() const {
-    return vertices.size();
+    return vertices.size(); // επιστροφη αριθμου κορυφων
 }
 
 int Graph::edgeCount() const {
-    return num_edges;
+    return num_edges; // επιστροφη αριθμου ακμων
 }
 
 void Graph::DFS(int u, std::map<int, bool>& visited) const {
-    visited[u] = true;
+    visited[u] = true; // σημειωσε ως επισκεπτομενο
     if (adj.count(u)) {
         for (const auto& edge : adj.at(u)) {
             if (!visited[edge.to]) {
-                DFS(edge.to, visited);
+                DFS(edge.to, visited); // αναδρομικη επισκεψη
             }
         }
     }
@@ -93,7 +92,7 @@ int Graph::connectedComponents() const {
     int components = 0;
     for (int v_node : vertices) {
         if (!visited[v_node]) {
-            DFS(v_node, visited);
+            DFS(v_node, visited); // βρες συνεκτικο συστατικο
             components++;
         }
     }
@@ -102,10 +101,9 @@ int Graph::connectedComponents() const {
 
 int Graph::shortestPath(int startNode, int endNode) const {
     if (vertices.find(startNode) == vertices.end() || vertices.find(endNode) == vertices.end()) {
-        return -1;
+        return -1; // αν δεν υπαρχει κορυφη
     }
     if (startNode == endNode) return 0;
-
 
     std::map<int, int> dist;
     for (int v_node : vertices) {
@@ -113,6 +111,7 @@ int Graph::shortestPath(int startNode, int endNode) const {
     }
     dist[startNode] = 0;
 
+    // ουρα προτεραιοτητας για dijkstra
     std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> pq;
     pq.push({0, startNode});
 
@@ -148,6 +147,7 @@ int Graph::spanningTreeCost() const {
     std::vector<std::tuple<int, int, int>> all_edges;
     std::set<std::pair<int,int>> added_edges_check;
 
+    // συλλογη ολων των ακμων
     for (int u : vertices) {
         if (adj.count(u)) {
             for (const auto& edge : adj.at(u)) {
@@ -171,13 +171,13 @@ int Graph::spanningTreeCost() const {
     if (all_edges.empty() && vertices.size() > 1 && connectedComponents() > 1) return -1;
     if (all_edges.empty() && vertices.size() <=1) return 0;
 
-
-    std::sort(all_edges.begin(), all_edges.end());
+    std::sort(all_edges.begin(), all_edges.end()); // ταξινομηση ακμων
 
     DSU dsu(vertices);
     int mst_cost = 0;
     int edges_in_mst = 0;
 
+    // Kruskal αλγοριθμος
     for (const auto& edge_tuple : all_edges) {
         int weight = std::get<0>(edge_tuple);
         int u = std::get<1>(edge_tuple);

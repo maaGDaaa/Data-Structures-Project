@@ -5,22 +5,23 @@
 #include <string>
 #include <stdexcept>
 
+// Κλάση για ελάχιστη σωρό (Min Heap)
 class MinHeap {
 private:
-    std::vector<int> heap;
+    std::vector<int> heap; // Δομή δεδομένων για τη σωρό
 
-    void heapifyUp(int index);
-    void heapifyDown(int index);
-    void buildHeap();
+    void heapifyUp(int index);   // Επαναφορά σωρού προς τα πάνω
+    void heapifyDown(int index); // Επαναφορά σωρού προς τα κάτω
+    void buildHeap();            // Δημιουργία σωρού από πίνακα
 
 public:
-    MinHeap();
+    MinHeap(); // Κατασκευαστής
 
-    bool buildFromFile(const std::string& filename);
-    int getSize() const;
-    int findMin() const;
-    void deleteMin();
-    void insert(int number);
+    bool buildFromFile(const std::string& filename); // Φόρτωση από αρχείο
+    int getSize() const;     // Επιστρέφει το μέγεθος
+    int findMin() const;     // Επιστρέφει το ελάχιστο
+    void deleteMin();        // Διαγράφει το ελάχιστο
+    void insert(int number); // Εισαγωγή στοιχείου
 };
 
-#endif // MINHEAP_H
+#endif 

@@ -3,8 +3,10 @@
 #include <iostream>
 #include <sstream>
 
+// Προεπιλεγμένος κατασκευαστής
 MinHeap::MinHeap() {}
 
+// Μετακινεί το στοιχείο προς τα πάνω για διατήρηση της ιδιότητας του σωρού
 void MinHeap::heapifyUp(int index) {
     while (index > 0) {
         int parent = (index - 1) / 2;
@@ -17,6 +19,7 @@ void MinHeap::heapifyUp(int index) {
     }
 }
 
+// Μετακινεί το στοιχείο προς τα κάτω για διατήρηση της ιδιότητας του σωρού
 void MinHeap::heapifyDown(int index) {
     int size = heap.size();
     while (index < size) {
@@ -38,11 +41,14 @@ void MinHeap::heapifyDown(int index) {
     }
 }
 
+// Δημιουργεί σωρό από το τρέχον vector
 void MinHeap::buildHeap() {
     for (int i = heap.size() / 2 - 1; i >= 0; --i) {
         heapifyDown(i);
     }
 }
+
+// Δημιουργεί σωρό από αρχείο, επιστρέφει true αν πετύχει
 bool MinHeap::buildFromFile(const std::string& filename) {
     heap.clear();
     std::ifstream file(filename);
@@ -57,7 +63,7 @@ bool MinHeap::buildFromFile(const std::string& filename) {
             int value = std::stoi(line);
             heap.push_back(value);
         } catch (...) {
-            std::cerr << "Invalid value in file: '" << line << "'\n";
+            std::cerr << "Μη έγκυρη τιμή στο αρχείο: '" << line << "'\n";
             return false;
         }
     }
@@ -67,28 +73,30 @@ bool MinHeap::buildFromFile(const std::string& filename) {
     return true;
 }
 
-
-
+// Επιστρέφει το μέγεθος του σωρού
 int MinHeap::getSize() const {
     return heap.size();
 }
 
+// Επιστρέφει το ελάχιστο στοιχείο
 int MinHeap::findMin() const {
     if (heap.empty()) {
-        throw std::runtime_error("Heap is empty");
+        throw std::runtime_error("Ο σωρός είναι άδειος");
     }
     return heap[0];
 }
 
+// Διαγράφει το ελάχιστο στοιχείο
 void MinHeap::deleteMin() {
     if (heap.empty()) {
-        throw std::runtime_error("Heap is empty");
+        throw std::runtime_error("Ο σωρός είναι άδειος");
     }
     heap[0] = heap.back();
     heap.pop_back();
     heapifyDown(0);
 }
 
+// Εισάγει νέο στοιχείο
 void MinHeap::insert(int number) {
     heap.push_back(number);
     heapifyUp(heap.size() - 1);

@@ -6,8 +6,9 @@
 #include <list>
 #include <map>
 #include <set>
-#include <algorithm> // For std::remove_if
+#include <algorithm> // Για std::remove_if
 
+// Πληροφορίες ακμής
 struct EdgeInfo {
     int to;
     int weight;
@@ -17,15 +18,16 @@ struct EdgeInfo {
     }
 };
 
-
+// Κλάση γράφου
 class Graph {
 private:
-    std::map<int, std::list<EdgeInfo>> adj;
-    std::set<int> vertices;
-    int num_edges;
+    std::map<int, std::list<EdgeInfo>> adj; // Λίστα γειτνίασης
+    std::set<int> vertices; // Κορυφές
+    int num_edges; // Πλήθος ακμών
 
-    void DFS(int u, std::map<int, bool>& visited) const;
+    void DFS(int u, std::map<int, bool>& visited) const; // Βαθιά αναζήτηση
 
+    // Δομή για Disjoint Set Union (DSU)
     struct DSU {
         std::map<int, int> parent;
         std::map<int, int> rank;
@@ -58,21 +60,20 @@ private:
         }
     };
 
-
 public:
-    Graph();
-    ~Graph();
+    Graph(); // Κατασκευαστής
+    ~Graph(); // Καταστροφέας
 
-    bool buildFromFile(const std::string& filename);
-    void insertEdge(int u, int v, int weight);
-    void removeEdge(int u, int v);
+    bool buildFromFile(const std::string& filename); // Δημιουργία από αρχείο
+    void insertEdge(int u, int v, int weight); // Εισαγωγή ακμής
+    void removeEdge(int u, int v); // Αφαίρεση ακμής
 
-    int vertexCount() const;
-    int edgeCount() const;
+    int vertexCount() const; // Πλήθος κορυφών
+    int edgeCount() const; // Πλήθος ακμών
 
-    int shortestPath(int startNode, int endNode) const;
-    int spanningTreeCost() const;
-    int connectedComponents() const;
+    int shortestPath(int startNode, int endNode) const; // Συντομότερο μονοπάτι
+    int spanningTreeCost() const; // Κόστος ελάχιστου δέντρου κάλυψης
+    int connectedComponents() const; // Συνδεδεμένα συστατικά
 };
 
 #endif // GRAPH_H

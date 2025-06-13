@@ -4,18 +4,20 @@
 #include <string>
 #include <iostream>
 #include "AVLTree.h"
-#include "MinHeap.h" // Υποθέτω ότι έχεις αυτά τα αρχεία
-#include "MaxHeap.h" // Υποθέτω ότι έχεις αυτά τα αρχεία
-#include "HashTable.h" // Υποθέτω ότι έχεις αυτά τα αρχεία
-#include "Graph.h"   // Νέα δομή
+#include "MinHeap.h"
+#include "MaxHeap.h"
+#include "HashTable.h"
+#include "Graph.h"
 
 int main() {
+    // Δημιουργία δομών δεδομένων
     AVLTree avl;
     MinHeap minheap;
     MaxHeap maxheap;
     HashTable hashtable;
     Graph graph;
 
+    // Flags για το αν έχουν χτιστεί οι δομές
     bool avlBuilt = false;
     bool minheapBuilt = false;
     bool maxheapBuilt = false;
@@ -35,6 +37,7 @@ int main() {
         return 1;
     }
 
+    // Επεξεργασία εντολών από το αρχείο
     while (std::getline(cmdfile, line)) {
         if (line.empty()) continue;
         std::istringstream iss(line);
@@ -48,6 +51,7 @@ int main() {
             std::string what, filename;
             iss >> what >> filename;
             try {
+                // Χτίσιμο δομής από αρχείο
                 if (what == "MINHEAP") {
                     if (minheap.buildFromFile(filename)) {
                         minheapBuilt = true;
@@ -107,6 +111,7 @@ int main() {
                 int size1 = -1, size2 = -1;
                 bool is_graph = false;
 
+                // Επιστροφή μεγέθους δομής
                 if (what == "MINHEAP") {
                     if (!minheapBuilt) { outfile << "FAILURE MINHEAP NOT BUILT\n"; continue; }
                     size1 = minheap.getSize();
@@ -143,6 +148,7 @@ int main() {
             std::string what;
             iss >> what;
             try {
+                // Εύρεση ελάχιστου στοιχείου
                 if (what == "MINHEAP") {
                     if (!minheapBuilt) { outfile << "FAILURE MINHEAP NOT BUILT\n"; continue;}
                     int mn = minheap.findMin();
@@ -166,6 +172,7 @@ int main() {
             std::string what;
             iss >> what;
             try {
+                // Εύρεση μέγιστου στοιχείου
                  if (what == "MAXHEAP") {
                     if (!maxheapBuilt) { outfile << "FAILURE MAXHEAP NOT BUILT\n"; continue; }
                     int mx = maxheap.findMax();
@@ -183,6 +190,7 @@ int main() {
             std::string what;
             iss >> what;
             try {
+                // Εισαγωγή στοιχείου
                 if (what == "MINHEAP") {
                     if (!minheapBuilt) { outfile << "FAILURE MINHEAP NOT BUILT\n"; continue; }
                     int number; iss >> number; minheap.insert(number);
@@ -215,6 +223,7 @@ int main() {
             std::string what;
             iss >> what;
             try {
+                // Διαγραφή στοιχείου
                 if (what == "MINHEAP") {
                     if (!minheapBuilt) { outfile << "FAILURE MINHEAP NOT BUILT\n"; continue; }
                     minheap.deleteMin();
@@ -244,6 +253,7 @@ int main() {
             std::string what; int number;
             iss >> what >> number;
             try {
+                // Αναζήτηση στοιχείου
                 bool found = false;
                 if (what == "AVLTREE") {
                     if (!avlBuilt) { outfile << "FAILURE AVLTREE NOT BUILT\n"; continue; }
@@ -268,6 +278,7 @@ int main() {
             if (what == "GRAPH") {
                 if (!graphBuilt) { outfile << "FAILURE GRAPH NOT BUILT\n"; continue; }
                 try {
+                    // Υπολογισμός συντομότερης διαδρομής
                     int cost = graph.shortestPath(n1, n2);
                     auto end = std::chrono::high_resolution_clock::now();
                     ms = std::chrono::duration<double, std::milli>(end - start).count();
@@ -285,6 +296,7 @@ int main() {
             if (what == "GRAPH") {
                 if (!graphBuilt) { outfile << "FAILURE GRAPH NOT BUILT\n"; continue; }
                 try {
+                    // Υπολογισμός ελάχιστου δέντρου κάλυψης
                     int cost = graph.spanningTreeCost();
                     auto end = std::chrono::high_resolution_clock::now();
                     ms = std::chrono::duration<double, std::milli>(end - start).count();
@@ -302,6 +314,7 @@ int main() {
             if (what == "GRAPH") {
                 if (!graphBuilt) { outfile << "FAILURE GRAPH NOT BUILT\n"; continue; }
                 try {
+                    // Εύρεση συνδεδεμένων συνιστωσών
                     int components = graph.connectedComponents();
                     auto end = std::chrono::high_resolution_clock::now();
                     ms = std::chrono::duration<double, std::milli>(end - start).count();
@@ -314,6 +327,7 @@ int main() {
             }
         }
         else {
+            // Άγνωστη εντολή
             outfile << "FAILURE UNKNOWN COMMAND (" << cmd << ")\n";
         }
     }

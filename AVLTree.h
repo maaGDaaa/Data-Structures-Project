@@ -3,8 +3,10 @@
 
 #include <string>
 
+// Κλάση για AVL δέντρο
 class AVLTree {
 private:
+    // Κόμβος του δέντρου
     struct Node {
         int key;
         Node* left;
@@ -12,30 +14,30 @@ private:
         int height;
         Node(int k) : key(k), left(nullptr), right(nullptr), height(1) {}
     };
-    Node* root;
-    int tree_size;
+    Node* root;      // Ρίζα δέντρου
+    int tree_size;   // Μέγεθος δέντρου
 
-    int getHeight(Node* node) const;
-    int getBalanceFactor(Node* node) const;
-    Node* rotateLeft(Node* node);
-    Node* rotateRight(Node* node);
-    Node* balance(Node* node);
-    Node* insertNode(Node* node, int key);
-    Node* deleteNode(Node* node, int key);
-    Node* minValueNode(Node* node) const;
-    bool searchNode(Node* node, int key) const;
-    void clear(Node* node);
+    int getHeight(Node* node) const;             // Επιστρέφει ύψος κόμβου
+    int getBalanceFactor(Node* node) const;      // Επιστρέφει συντελεστή ισορροπίας
+    Node* rotateLeft(Node* node);                // Αριστερή περιστροφή
+    Node* rotateRight(Node* node);               // Δεξιά περιστροφή
+    Node* balance(Node* node);                   // Ισορροπεί τον κόμβο
+    Node* insertNode(Node* node, int key);       // Εισαγωγή κόμβου
+    Node* deleteNode(Node* node, int key);       // Διαγραφή κόμβου
+    Node* minValueNode(Node* node) const;        // Ελάχιστος κόμβος
+    bool searchNode(Node* node, int key) const;  // Αναζήτηση κόμβου
+    void clear(Node* node);                      // Καθαρισμός δέντρου
 
 public:
-    AVLTree();
-    ~AVLTree();
+    AVLTree();      // Κατασκευαστής
+    ~AVLTree();     // Καταστροφέας
 
-    bool buildFromFile(const std::string& filename);
-    void insert(int key);
-    bool search(int key) const;
-    void remove(int key);
-    int findMin() const;
-    int size() const;
+    bool buildFromFile(const std::string& filename); // Δημιουργία από αρχείο
+    void insert(int key);                            // Εισαγωγή κλειδιού
+    bool search(int key) const;                      // Αναζήτηση κλειδιού
+    void remove(int key);                            // Διαγραφή κλειδιού
+    int findMin() const;                             // Εύρεση ελάχιστου
+    int size() const;                                // Μέγεθος δέντρου
 };
 
 #endif // AVLTREE_H
